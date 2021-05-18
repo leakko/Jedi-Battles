@@ -1,1 +1,1 @@
-# codeBattles
+# Maze Battles
