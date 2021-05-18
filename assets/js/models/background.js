@@ -1,11 +1,13 @@
 class Background {
     constructor (ctx) {
         this.ctx = ctx;
+        this.x = 0;
+        this.y = 0;
         this.height = this.ctx.canvas.height;
         this.width = this.ctx.canvas.width;
         
         this.img = new Image();
-        this.img.src = "./assets/img/background.jpg"
+        this.img.src = "./assets/img/mountains/digital-art-3563931_1920.jpg"
         this.img.isReady = false;
         this.img.onload = () => {
             this.img.isReady = true;
@@ -20,8 +22,8 @@ class Background {
         if (this.isReady()) {
             this.ctx.drawImage (
                 this.img,
-                0,
-                0,
+                this.x,
+                this.y,
                 this.width,
                 this.height
             )
