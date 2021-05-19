@@ -8,13 +8,16 @@ class JediOne {
       this.vx = 0
   
       this.y = y
-      this.vy = 1
-      this.ay = 2
+      //this.vy = 1
+      //this.ay = 0.2
+
+      this.vy = 0
+      this.ay = 0
 
 
       this.drawCount = 0
 
-  
+
       this.spriteAttackRight = new Image()
       this.spriteAttackRight.src = './assets/img/jedi-right/attack 1 and 2.png'
       this.spriteAttackRight.isReady = false
@@ -142,23 +145,172 @@ class JediOne {
         this.width = this.spriteDeathLeft.frameWidth
         this.height = this.spriteDeathLeft.frameHeight
       }
+
+
+      this.movements = {
+        up: false,
+        down: false,
+        right: false,
+        left: false,
+      }
+
+      this.isJumping = false;
+
+      this.isAttacking = false;
+
+      this.canAttack = true;
+
     }
 
       draw() {
-        if (this.spriteRunRight.isReady) {
-          this.ctx.drawImage(
-            this.spriteRunRight,
-            this.spriteRunRight.horizontalFrameIndex * this.spriteRunRight.frameWidth,
-            this.spriteRunRight.verticalFrameIndex * this.spriteRunRight.frameHeight,
-            this.spriteRunRight.frameWidth,
-            this.spriteRunRight.frameHeight,
-            this.x,
-            this.y,
-            this.spriteRunRight.frameWidth*2,
-            this.spriteRunRight.frameHeight*2,
-          )
+        if(this.movements.right) {
+          if (this.spriteRunRight.isReady) {
+            this.ctx.drawImage(
+              this.spriteRunRight,
+              this.spriteRunRight.horizontalFrameIndex * this.spriteRunRight.frameWidth,
+              this.spriteRunRight.verticalFrameIndex * this.spriteRunRight.frameHeight,
+              this.spriteRunRight.frameWidth,
+              this.spriteRunRight.frameHeight,
+              this.x,
+              this.y,
+              this.spriteRunRight.frameWidth*2,
+              this.spriteRunRight.frameHeight*2,
+            )
     
-          this.spriteRunRight.drawCount++
+            this.spriteRunRight.drawCount++;
+            this.lastDirection = "right";
+          }
+        } else if (this.movements.left) {
+          if (this.spriteRunLeft.isReady) {
+            this.ctx.drawImage(
+              this.spriteRunLeft,
+              this.spriteRunLeft.horizontalFrameIndex * this.spriteRunLeft.frameWidth,
+              this.spriteRunLeft.verticalFrameIndex * this.spriteRunLeft.frameHeight,
+              this.spriteRunLeft.frameWidth,
+              this.spriteRunLeft.frameHeight,
+              this.x,
+              this.y,
+              this.spriteRunLeft.frameWidth*2,
+              this.spriteRunLeft.frameHeight*2,
+            )
+            this.spriteRunLeft.drawCount++;this.lastDirection = "right";
+            this.lastDirection = "left";
+          }
+        } else {
+          if (this.lastDirection == "right") {
+            if (this.spriteRunRight.isReady) {
+              this.ctx.drawImage(
+                this.spriteRunRight,
+                this.spriteRunRight.horizontalFrameIndex * this.spriteRunRight.frameWidth,
+                this.spriteRunRight.verticalFrameIndex * this.spriteRunRight.frameHeight,
+                this.spriteRunRight.frameWidth,
+                this.spriteRunRight.frameHeight,
+                this.x,
+                this.y,
+                this.spriteRunRight.frameWidth*2,
+                this.spriteRunRight.frameHeight*2,
+              )
+      
+              this.spriteRunRight.drawCount++;
+            }
+          } else if (this.lastDirection == "left") {
+            if (this.spriteRunLeft.isReady) {
+              this.ctx.drawImage(
+                this.spriteRunLeft,
+                this.spriteRunLeft.horizontalFrameIndex * this.spriteRunLeft.frameWidth,
+                this.spriteRunLeft.verticalFrameIndex * this.spriteRunLeft.frameHeight,
+                this.spriteRunLeft.frameWidth,
+                this.spriteRunLeft.frameHeight,
+                this.x,
+                this.y,
+                this.spriteRunLeft.frameWidth*2,
+                this.spriteRunLeft.frameHeight*2,
+              )
+              this.spriteRunLeft.drawCount++;
+            }
+          }  else {
+            if (this.spriteRunRight.isReady) {
+              this.ctx.drawImage(
+                this.spriteRunRight,
+                this.spriteRunRight.horizontalFrameIndex * this.spriteRunRight.frameWidth,
+                this.spriteRunRight.verticalFrameIndex * this.spriteRunRight.frameHeight,
+                this.spriteRunRight.frameWidth,
+                this.spriteRunRight.frameHeight,
+                this.x,
+                this.y,
+                this.spriteRunRight.frameWidth*2,
+                this.spriteRunRight.frameHeight*2,
+              )
+              this.spriteRunRight.drawCount++;
+            }
         }
+        }
+      }
+
+      onKeyEvent(event) {
+        const status = event.type === 'keydown'
+        switch (event.keyCode) {
+          case 87:
+            this.movements.up = status
+            break;
+          case 68:
+            this.movements.right = status
+            break;
+          case 65:
+            this.movements.left = status
+            break;
+          case 83:
+            this.movements.down = status
+            break;
+          case 69:
+            this.isAttacking = status
+            if (this.canAttack) {
+              // this.animateJump()
+              // this.bullets.push(new Fireball(this.ctx, this.x + this.width, this.y, this.maxY + this.height))
+              // this.sounds.fire.currentTime = 0
+              // this.sounds.fire.play()
+              this.canAttack = false
+              setTimeout(() => {
+                this.canAttack = true
+              }, 500);
+            }
+            break;
+    
+          default:
+            break;
+        }
+      }
+
+      move() {
+        if (this.movements.up && !this.isJumping) {
+          this.isJumping = true
+          this.vy = -8
+        } else if (this.isJumping) {
+          this.vy += 2
+        }
+    
+        if (this.movements.right) {
+          this.vx = 4
+        } else if (this.movements.left) {
+          this.vx = -4
+        } else {
+          this.vx = 0
+        }
+
+        this.vy += this.ay;
+        this.x += this.vx
+        this.y += this.vy
+    
+        // if (this.x >= this.maxX) {
+        //   this.x = this.maxX
+        // } else if (this.x <= this.minX) {
+        //   this.x = this.minX
+        // }
+    
+        // if (this.y >= this.maxY) {
+        //   this.isJumping = false
+        //   this.y = this.maxY
+        //   this.vy = 0
+        // }
       }
 }

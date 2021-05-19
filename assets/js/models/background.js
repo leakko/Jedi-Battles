@@ -7,7 +7,7 @@ class Background {
         this.width = this.ctx.canvas.width;
         
         this.img = new Image();
-        this.img.src = "./assets/img/mountains/digital-art-3563931_1920.jpg"
+        this.img.src = "./assets/img/mountains/clouds.jpg"
         this.img.isReady = false;
         this.img.onload = () => {
             this.img.isReady = true;

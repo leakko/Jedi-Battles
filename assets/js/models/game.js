@@ -29,18 +29,34 @@ class Game {
     } 
 
     start () {
-        this.draw();
-
+        if (!this.drawInterval) {
+          this.drawInterval = setInterval (() => {
+            this.clear();
+            this.move();
+            this.draw();
+          }, this.fps)
+        }
     }
 
     draw () {
-        if (!this.drawInterval) {
-            this.drawInterval = setInterval (() => {
-                this.background.draw();
-                this.tiles.forEach (tile => tile.draw());
-                this.jediOne.draw();
-                this.jediTwo.draw();
-            }, this.fps)
-        }
+        this.background.draw();
+        this.tiles.forEach (tile => tile.draw());
+        this.jediOne.draw();
+        this.jediTwo.draw();
     }
+
+    move() {
+        this.jediOne.move();
+        this.jediTwo.move();
+    }
+
+    clear () {
+        this.ctx.clearRect (0, 0, this.canvas.width, this.canvas.height);
+    }
+
+    onKeyEvent(event) {
+        this.jediOne.onKeyEvent(event);
+        this.jediTwo.onKeyEvent(event);
+      }
+    
 }
