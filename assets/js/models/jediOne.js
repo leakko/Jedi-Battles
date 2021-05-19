@@ -35,7 +35,7 @@ class JediOne {
       }
 
       this.spriteRunRight = new Image()
-      this.spriteRunRight.src = './assets/img/jedi-right/idle first frame and run.png'
+      this.spriteRunRight.src = './assets/img/jedi-right/idle first frame and run centered.png'
       this.spriteRunRight.isReady = false
       this.spriteRunRight.width = 142
       this.spriteRunRight.height = 963;
@@ -99,7 +99,7 @@ class JediOne {
       }
 
       this.spriteRunLeft = new Image()
-      this.spriteRunLeft.src = './assets/img/jedi-left/idle first frame and run.png'
+      this.spriteRunLeft.src = './assets/img/jedi-left/idle first frame and run centered.png'
       this.spriteRunLeft.isReady = false
       this.spriteRunLeft.width = 142
       this.spriteRunLeft.height = 963;
