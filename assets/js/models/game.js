@@ -24,10 +24,8 @@ class Game {
             new Tile(this.ctx, 600, 300),
             new Tile(this.ctx, 700, 300),
         ]
-        this.jedis = [
-            new Jedi(this.ctx, 200, 500);
-            new Jedi(this.ctx, 1000, 500);
-        ]
+        this.jediOne = new JediOne(this.ctx, 150, 286);
+        this.jediTwo = new JediTWo(this.ctx, 865, 286);
     } 
 
     start () {
@@ -40,7 +38,8 @@ class Game {
             this.drawInterval = setInterval (() => {
                 this.background.draw();
                 this.tiles.forEach (tile => tile.draw());
-                this.jedis.forEach (jedi => jedi.draw());
+                this.jediOne.draw();
+                this.jediTwo.draw();
             }, this.fps)
         }
     }
