@@ -19,16 +19,14 @@ class Game {
             new Tile(this.ctx, 800, 500),
             new Tile(this.ctx, 900, 500),
             new Tile(this.ctx, 1000, 500),
-            new Tile(this.ctx, 200, 300),
-            new Tile(this.ctx, 300, 300),
             new Tile(this.ctx, 400, 300),
             new Tile(this.ctx, 500, 300),
             new Tile(this.ctx, 600, 300),
             new Tile(this.ctx, 700, 300),
-            new Tile(this.ctx, 800, 300),
-            new Tile(this.ctx, 900, 300),
-            new Tile(this.ctx, 1000, 300),
-
+        ]
+        this.jedis = [
+            new Jedi(this.ctx, 200, 500);
+            new Jedi(this.ctx, 1000, 500);
         ]
     } 
 
@@ -41,7 +39,8 @@ class Game {
         if (!this.drawInterval) {
             this.drawInterval = setInterval (() => {
                 this.background.draw();
-                this.tiles.forEach (tile => tile.draw())
+                this.tiles.forEach (tile => tile.draw());
+                this.jedis.forEach (jedi => jedi.draw());
             }, this.fps)
         }
     }

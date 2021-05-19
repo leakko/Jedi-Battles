@@ -1,1 +1,1 @@
-# Maze Battles
+# Jedi Battles
