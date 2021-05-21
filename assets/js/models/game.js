@@ -41,7 +41,9 @@ class Game {
     draw () {
         this.background.draw();
         this.tiles.forEach (tile => tile.draw());
+        this.jediOne.animateRun()
         this.jediOne.draw();
+        this.jediTwo.animateRun();
         this.jediTwo.draw();
     }
 

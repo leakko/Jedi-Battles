@@ -192,7 +192,7 @@ class JediTWo {
           this.spriteRunLeft.frameWidth*2,
           this.spriteRunLeft.frameHeight*2,
         )
-        this.spriteRunLeft.drawCount++;this.lastDirection = "right";
+        this.spriteRunLeft.drawCount++;
         this.lastDirection = "left";
       }
     } else {
@@ -209,8 +209,8 @@ class JediTWo {
             this.spriteRunRight.frameWidth*2,
             this.spriteRunRight.frameHeight*2,
           )
-  
-          this.spriteRunRight.drawCount++;
+          this.spriteRunRight.drawCount = 0;
+          this.spriteRunLeft.drawCount = 0;
         }
       } else if (this.lastDirection == "left") {
         if (this.spriteRunLeft.isReady) {
@@ -225,7 +225,8 @@ class JediTWo {
             this.spriteRunLeft.frameWidth*2,
             this.spriteRunLeft.frameHeight*2,
           )
-          this.spriteRunLeft.drawCount++;
+          this.spriteRunRight.drawCount = 0;
+          this.spriteRunLeft.drawCount = 0;
         }
       }  else {
         if (this.spriteRunLeft.isReady) {
@@ -240,7 +241,8 @@ class JediTWo {
             this.spriteRunLeft.frameWidth*2,
             this.spriteRunLeft.frameHeight*2,
           )
-          this.spriteRunLeft.drawCount++;
+          this.spriteRunRight.drawCount = 0;
+          this.spriteRunLeft.drawCount = 0;
         }
     }
     }
@@ -299,17 +301,29 @@ class JediTWo {
       this.vy += this.ay;
       this.x += this.vx
       this.y += this.vy
-  
-      // if (this.x >= this.maxX) {
-      //   this.x = this.maxX
-      // } else if (this.x <= this.minX) {
-      //   this.x = this.minX
-      // }
-  
-      // if (this.y >= this.maxY) {
-      //   this.isJumping = false
-      //   this.y = this.maxY
-      //   this.vy = 0
-      // }
     }
+
+    animateRun () {
+      if (this.spriteRunRight.drawCount % 3 == 0) {
+        if (this.spriteRunRight.verticalFrameIndex >= this.spriteRunRight.verticalFrames - 1) {
+          this.spriteRunRight.verticalFrameIndex = 0
+        } else {
+          this.spriteRunRight.verticalFrameIndex++;
+        }
+      }
+      if (this.spriteRunRight.drawCount == 0) {
+        this.spriteRunRight.verticalFrameIndex = 0;
+      }
+      if (this.spriteRunLeft.drawCount % 3 == 0) {
+        if (this.spriteRunLeft.verticalFrameIndex >= this.spriteRunLeft.verticalFrames -1 ) {
+          this.spriteRunLeft.verticalFrameIndex = 0
+        } else {
+          this.spriteRunLeft.verticalFrameIndex++;
+        }
+      }
+      if (this.spriteRunLeft.drawCount == 0) {
+        this.spriteRunLeft.verticalFrameIndex = 0;
+      }
+    }
+    
 }
