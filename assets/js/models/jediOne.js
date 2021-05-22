@@ -8,7 +8,7 @@ class JediOne {
       this.vx = 0
   
       this.y = y
-      this.vy = 2
+      this.vy = 2;
       this.ay = 0.3;
 
 
@@ -145,6 +145,8 @@ class JediOne {
 
       this.canAttack = true;
 
+      this.canJump = true;
+
     }
 
       draw() {
@@ -251,16 +253,6 @@ class JediOne {
             break;
           case 69:
             this.isAttacking = status
-            if (this.canAttack) {
-              // this.animateJump()
-              // this.bullets.push(new Fireball(this.ctx, this.x + this.width, this.y, this.maxY + this.height))
-              // this.sounds.fire.currentTime = 0
-              // this.sounds.fire.play()
-              this.canAttack = false
-              setTimeout(() => {
-                this.canAttack = true
-              }, 500);
-            }
             break;
     
           default:
@@ -270,25 +262,48 @@ class JediOne {
 
       move() {
         if (this.movements.up && !this.isJumping) {
-          this.isJumping = true
-          this.vy = -8
-        } else if (this.isJumping) {
-          this.vy += 2
-        }
-    
-        if (this.movements.right) {
-          this.vx = 4
+          this.isJumping = true;
+          this.canJump = false;
 
-        } else if (this.movements.left) {
-          this.vx = -4
-        } else {
-          this.vx = 0
+          setTimeout(() => {
+            this.isJumping = false;
+          }, 200);
+
+          setTimeout(() => {
+            this.canJump = true;
+          }, 2000);
+
         }
-        if (this.vy < 20) {
+
+        if (!this.isJumping) {
+          if (this.movements.right) {
+            this.vx = 4
+  
+          } else if (this.movements.left) {
+            this.vx = -4
+          } else {
+            this.vx = 0
+          }
+
+          this.ay = 0.3;
+          if (this.vy < 20) {
+            this.vy += this.ay;
+          }
           this.vy += this.ay;
+          this.y += this.vy;
+          this.x += this.vx
         }
-        this.y += this.vy;
-        this.x += this.vx
+
+        if (this.isJumping) {
+            this.vx = 0;
+            this.vy = -12
+            this.ay = 2
+          if (this.vy < 20) {
+            this.vy += this.ay;
+          }
+          this.y += this.vy;
+          this.x += this.vx
+        }
       }
 
       animateRun () {
@@ -318,8 +333,8 @@ class JediOne {
       }
 
       collidesWith (tile) {
-        return this.x + Math.floor(this.spriteRunLeft.width / this.spriteRunLeft.horizontalFrames) >= tile.x && 
-        this.x <= tile.x + tile.width &&
+        return this.x +20 + Math.floor(this.spriteRunLeft.width / this.spriteRunLeft.horizontalFrames) >= tile.x && 
+        this.x + 20 <= tile.x + tile.width &&
         this.y + Math.floor(this.spriteRunRight.height / this.spriteRunRight.verticalFrames) + 107 >= tile.y &&
         this.y + Math.floor(this.spriteRunRight.height / this.spriteRunRight.verticalFrames) + 107 <= tile.y + tile.height
       }
