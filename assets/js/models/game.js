@@ -21,13 +21,13 @@ class Game {
             new Tile(this.ctx, 400, 300),
             new Tile(this.ctx, 500, 300),
             new Tile(this.ctx, 600, 300),
-            new Tile(this.ctx, 700, 300),
         ]
         this.jediOne = new JediOne(this.ctx, 150, 286);
         this.jediTwo = new JediTWo(this.ctx, 865, 286);
 
         this.extraTiles = [
             new Tile(this.ctx, 1000, 500),
+            new Tile(this.ctx, 700, 300),
         ]
     } 
 
