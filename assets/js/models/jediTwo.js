@@ -8,11 +8,8 @@ class JediTWo {
     this.vx = 0
 
     this.y = y
-    //this.vy = 1
-    //this.ay = 0.2
-
-    this.vy = 0
-    this.ay = 0
+    this.vy = 2
+    this.ay = 0.3
 
 
     this.drawCount = 0
@@ -30,8 +27,6 @@ class JediTWo {
       this.spriteAttackRight.isReady = true
       this.spriteAttackRight.frameWidth = Math.floor(this.spriteAttackRight.width / this.spriteAttackRight.horizontalFrames)
       this.spriteAttackRight.frameHeight = Math.floor(this.spriteAttackRight.height / this.spriteAttackRight.verticalFrames)
-      this.width = this.spriteAttackRight.frameWidth
-      this.height = this.spriteAttackRight.frameHeight
     }
 
     this.spriteRunRight = new Image()
@@ -62,8 +57,6 @@ class JediTWo {
       this.spriteTeleportRight.isReady = true
       this.spriteTeleportRight.frameWidth = Math.floor(this.spriteTeleportRight.width / this.spriteTeleportRight.horizontalFrames)
       this.spriteTeleportRight.frameHeight = Math.floor(this.spriteTeleportRight.height / this.spriteTeleportRight.verticalFrames)
-      this.width = this.spriteTeleportRight.frameWidth
-      this.height = this.spriteTeleportRight.frameHeight
     }
 
     this.spriteDeathRight = new Image()
@@ -78,8 +71,6 @@ class JediTWo {
       this.spriteDeathRight.isReady = true
       this.spriteDeathRight.frameWidth = Math.floor(this.spriteDeathRight.width / this.spriteDeathRight.horizontalFrames)
       this.spriteDeathRight.frameHeight = Math.floor(this.spriteDeathRight.height / this.spriteDeathRight.verticalFrames)
-      this.width = this.spriteDeathRight.frameWidth
-      this.height = this.spriteDeathRight.frameHeight
     }
 
     this.spriteAttackLeft = new Image()
@@ -94,8 +85,6 @@ class JediTWo {
       this.spriteAttackLeft.isReady = true
       this.spriteAttackLeft.frameWidth = Math.floor(this.spriteAttackLeft.width / this.spriteAttackLeft.horizontalFrames)
       this.spriteAttackLeft.frameHeight = Math.floor(this.spriteAttackLeft.height / this.spriteAttackLeft.verticalFrames)
-      this.width = this.spriteAttackLeft.frameWidth
-      this.height = this.spriteAttackLeft.frameHeight
     }
 
     this.spriteRunLeft = new Image()
@@ -126,8 +115,6 @@ class JediTWo {
       this.spriteTeleportLeft.isReady = true
       this.spriteTeleportLeft.frameWidth = Math.floor(this.spriteTeleportLeft.width / this.spriteTeleportLeft.horizontalFrames)
       this.spriteTeleportLeft.frameHeight = Math.floor(this.spriteTeleportLeft.height / this.spriteTeleportLeft.verticalFrames)
-      this.width = this.spriteTeleportLeft.frameWidth
-      this.height = this.spriteTeleportLeft.frameHeight
     }
 
     this.spriteDeathLeft = new Image()
@@ -142,8 +129,6 @@ class JediTWo {
       this.spriteDeathLeft.isReady = true
       this.spriteDeathLeft.frameWidth = Math.floor(this.spriteDeathLeft.width / this.spriteDeathLeft.horizontalFrames)
       this.spriteDeathLeft.frameHeight = Math.floor(this.spriteDeathLeft.height / this.spriteDeathLeft.verticalFrames)
-      this.width = this.spriteDeathLeft.frameWidth
-      this.height = this.spriteDeathLeft.frameHeight
     }
 
     this.movements = {
@@ -292,38 +277,50 @@ class JediTWo {
   
       if (this.movements.right) {
         this.vx = 4
+
       } else if (this.movements.left) {
         this.vx = -4
       } else {
         this.vx = 0
       }
-
-      this.vy += this.ay;
+      if (this.vy < 20) {
+        this.vy += this.ay;
+      }
+      this.y += this.vy;
       this.x += this.vx
-      this.y += this.vy
     }
 
     animateRun () {
-      if (this.spriteRunRight.drawCount % 3 == 0) {
-        if (this.spriteRunRight.verticalFrameIndex >= this.spriteRunRight.verticalFrames - 1) {
-          this.spriteRunRight.verticalFrameIndex = 0
-        } else {
-          this.spriteRunRight.verticalFrameIndex++;
+      if (!this.isJumping) {
+        if (this.spriteRunRight.drawCount % 3 == 0) {
+          if (this.spriteRunRight.verticalFrameIndex >= this.spriteRunRight.verticalFrames - 1) {
+            this.spriteRunRight.verticalFrameIndex = 0
+          } else {
+            this.spriteRunRight.verticalFrameIndex++;
+          }
         }
-      }
-      if (this.spriteRunRight.drawCount == 0) {
-        this.spriteRunRight.verticalFrameIndex = 0;
-      }
-      if (this.spriteRunLeft.drawCount % 3 == 0) {
-        if (this.spriteRunLeft.verticalFrameIndex >= this.spriteRunLeft.verticalFrames -1 ) {
-          this.spriteRunLeft.verticalFrameIndex = 0
-        } else {
-          this.spriteRunLeft.verticalFrameIndex++;
+        if (this.spriteRunRight.drawCount == 0) {
+          this.spriteRunRight.verticalFrameIndex = 0;
         }
-      }
-      if (this.spriteRunLeft.drawCount == 0) {
-        this.spriteRunLeft.verticalFrameIndex = 0;
+
+        if (this.spriteRunLeft.drawCount % 3 == 0) {
+          if (this.spriteRunLeft.verticalFrameIndex >= this.spriteRunLeft.verticalFrames - 1) {
+            this.spriteRunLeft.verticalFrameIndex = 0
+          } else {
+            this.spriteRunLeft.verticalFrameIndex++;
+          }
+        }
+        if (this.spriteRunLeft.drawCount == 0) {
+          this.spriteRunLeft.verticalFrameIndex = 0;
+        }
       }
     }
+
+    collidesWith (tile) {
+        return this.x + 25 + Math.floor(this.spriteRunLeft.width / this.spriteRunLeft.horizontalFrames) >= tile.x && 
+        this.x + 25 <= tile.x + tile.width &&
+        this.y + Math.floor(this.spriteRunRight.height / this.spriteRunRight.verticalFrames) + 107 >= tile.y &&
+        this.y + Math.floor(this.spriteRunRight.height / this.spriteRunRight.verticalFrames) + 107 <= tile.y + tile.height
+      }
     
 }

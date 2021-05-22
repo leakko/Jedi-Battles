@@ -6,7 +6,8 @@ window.onload = () => {
       })
     
       document.addEventListener('keyup', (event) => {
-        game.onKeyEvent(event)
+        game.onKeyEvent(event);
       })
     game.start();
+    console.log(game.jediOne.collidesWith(game.tiles[0]))
 }
