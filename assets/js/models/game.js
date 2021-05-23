@@ -59,8 +59,10 @@ class Game {
         this.extraTiles.forEach (tile => tile.draw());
         this.portals.forEach (portal => portal.draw());
         this.jediOne.animateRun()
+        this.jediOne.animateAttack()
         this.jediOne.draw();
         this.jediTwo.animateRun();
+        this.jediTwo.animateAttack();
         this.jediTwo.draw();
     }
 
