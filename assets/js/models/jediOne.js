@@ -253,6 +253,12 @@ class JediOne {
                 this.spriteAttackRight.frameWidth*2,
                 this.spriteAttackRight.frameHeight*2,
               )
+              if(this.spriteAttackRight.drawCount++ > 56) {
+                this.spriteAttackRight.drawCount = 0;
+              }
+              if(this.spriteAttackLeft.drawCount++ > 56) {
+                this.spriteAttackLeft.drawCount = 0;
+              }
               this.spriteAttackRight.drawCount++;
             }
           } else if (this.lastDirection == "left") {
@@ -268,6 +274,12 @@ class JediOne {
                 this.spriteAttackLeft.frameWidth*2,
                 this.spriteAttackLeft.frameHeight*2,
               )
+              if(this.spriteAttackRight.drawCount++ > 56) {
+                this.spriteAttackRight.drawCount = 0;
+              }
+              if(this.spriteAttackLeft.drawCount++ > 56) {
+                this.spriteAttackLeft.drawCount = 0;
+              }
               this.spriteAttackLeft.drawCount++;
             }
           } else {
@@ -283,6 +295,12 @@ class JediOne {
                 this.spriteAttackRight.frameWidth*2,
                 this.spriteAttackRight.frameHeight*2,
               )
+              if(this.spriteAttackRight.drawCount++ > 56) {
+                this.spriteAttackRight.drawCount = 0;
+              }
+              if(this.spriteAttackLeft.drawCount++ > 56) {
+                this.spriteAttackLeft.drawCount = 0;
+              }
               this.spriteAttackRight.drawCount++;
             }
           }

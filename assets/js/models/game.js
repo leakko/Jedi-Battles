@@ -89,7 +89,10 @@ class Game {
         let firstJedi = this.jediOne;
         let secondJedi = this.jediTwo;
         if (!firstJedi.canAttack && firstJedi.hitWith(secondJedi)) {
-            secondJedi.health -= Math.round((firstJedi.spriteAttackRight.drawCount/200) + (firstJedi.spriteAttackLeft.drawCount/200));
+            secondJedi.health -= Math.round((firstJedi.spriteAttackRight.drawCount/100) + (firstJedi.spriteAttackLeft.drawCount/100));
+        }
+        if (!secondJedi.canAttack && secondJedi.hitWith(firstJedi)) {
+            firstJedi.health -= Math.round((secondJedi.spriteAttackRight.drawCount/100) + (secondJedi.spriteAttackLeft.drawCount/100));
         }
     }
 

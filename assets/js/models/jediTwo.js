@@ -253,6 +253,12 @@ class JediTWo {
             this.spriteAttackRight.frameWidth*2,
             this.spriteAttackRight.frameHeight*2,
           )
+          if(this.spriteAttackRight.drawCount++ > 56) {
+            this.spriteAttackRight.drawCount = 0;
+          }
+          if(this.spriteAttackLeft.drawCount++ > 56) {
+            this.spriteAttackLeft.drawCount = 0;
+          }
           this.spriteAttackRight.drawCount++;
         }
       } else if (this.lastDirection == "left") {
@@ -268,6 +274,12 @@ class JediTWo {
             this.spriteAttackLeft.frameWidth*2,
             this.spriteAttackLeft.frameHeight*2,
           )
+          if(this.spriteAttackRight.drawCount++ > 56) {
+            this.spriteAttackRight.drawCount = 0;
+          }
+          if(this.spriteAttackLeft.drawCount++ > 56) {
+            this.spriteAttackLeft.drawCount = 0;
+          }
           this.spriteAttackLeft.drawCount++;
         }
       } else {
@@ -283,6 +295,12 @@ class JediTWo {
             this.spriteAttackLeft.frameWidth*2,
             this.spriteAttackLeft.frameHeight*2,
           )
+          if(this.spriteAttackRight.drawCount++ > 56) {
+            this.spriteAttackRight.drawCount = 0;
+          }
+          if(this.spriteAttackLeft.drawCount++ > 56) {
+            this.spriteAttackLeft.drawCount = 0;
+          }
           this.spriteAttackLeft.drawCount++;
         }
       }
@@ -415,6 +433,19 @@ class JediTWo {
       this.x + 20 <= tile.x + tile.width &&
       this.y + Math.floor(this.spriteRunRight.height / this.spriteRunRight.verticalFrames) + 107 >= tile.y &&
       this.y + Math.floor(this.spriteRunRight.height / this.spriteRunRight.verticalFrames) + 107 <= tile.y + tile.height
-      }
+    }
     
+    hitWith (otherJedi) {
+        if (this.lastDirection == "left") {
+          return this.x + 50 <= otherJedi.x + 20 + Math.floor(this.spriteRunLeft.width / this.spriteRunLeft.horizontalFrames) && 
+        this.x + 50 >= otherJedi.x + 20 &&
+        this.y + 107 >= otherJedi.y + 107 &&
+        this.y + 107 <= otherJedi.y + Math.floor(this.spriteRunRight.height / this.spriteRunRight.verticalFrames) + 107;
+        } else {
+          return this.x + Math.floor(this.spriteRunLeft.width / this.spriteRunLeft.horizontalFrames) - 30 >= otherJedi.x && 
+        this.x + Math.floor(this.spriteRunLeft.width / this.spriteRunLeft.horizontalFrames) -30 <= otherJedi.x + Math.floor(this.spriteRunLeft.width / this.spriteRunLeft.horizontalFrames) &&
+        this.y + 107 >= otherJedi.y + 107 &&
+        this.y + 107 <= otherJedi.y + Math.floor(this.spriteRunRight.height / this.spriteRunRight.verticalFrames) + 107;
+        }
+      }
 }
