@@ -46,6 +46,7 @@ class Game {
           this.drawInterval = setInterval (() => {
             this.clear();
             this.move();
+            this.combat();
             this.draw();
           }, this.fps)
         }
@@ -82,6 +83,14 @@ class Game {
         }})
         this.jediOne.move();
         this.jediTwo.move();
+    }
+
+    combat () {
+        let firstJedi = this.jediOne;
+        let secondJedi = this.jediTwo;
+        if (!firstJedi.canAttack && firstJedi.hitWith(secondJedi)) {
+            secondJedi.health -= Math.round((firstJedi.spriteAttackRight.drawCount/200) + (firstJedi.spriteAttackLeft.drawCount/200));
+        }
     }
 
     clear () {

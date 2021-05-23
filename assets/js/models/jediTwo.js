@@ -11,8 +11,11 @@ class JediTWo {
     this.vy = 2;
     this.ay = 0.3;
 
+    this.health = 100;
+    this.damage = 20;
 
-    this.drawCount = 0
+
+    this.drawCount = 0;
 
 
     this.spriteAttackRight = new Image()

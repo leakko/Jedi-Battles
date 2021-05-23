@@ -1,7 +1,7 @@
 class Sun {
     constructor (ctx) {
         this.ctx = ctx;
-        this.x = -10;
+        this.x = -100;
         this.y = this.ctx.canvas.height - 400;
     }
 
@@ -18,6 +18,10 @@ class Sun {
     move () {
         this.x += 0.2
         this.y -= 0.1
+        if (this.x > 1000 && this.y < -100) {
+            this.x = -100;
+            this.y = this.ctx.canvas.height - 400;
+        }
     }
 
 }
