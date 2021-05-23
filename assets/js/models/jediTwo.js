@@ -237,41 +237,34 @@ class JediTWo {
 
     onKeyEvent(event) {
       const status = event.type === 'keydown'
-      switch (event.keyCode) {
-        case 38:
-          this.movements.up = status
-          break;
-        case 39:
+        const eventCode = event.keyCode;
+
+        if (eventCode == 38) {
+          if (this.canJump) {
+            this.movements.up = status;
+          }
+          if (!this.canJump) {
+            this.movements.up = false;
+          }
+        } else if (eventCode == 39) {
           this.movements.right = status
-          break;
-        case 37:
+        } else if (eventCode == 37) {
           this.movements.left = status
-          break;
-        case 40:
+        } else if (eventCode == 40) {
           this.movements.down = status
-          break;
-        case 96:
+        } else if (eventCode == 96) {
           this.isAttacking = status
-          break;
-  
-        default:
-          break;
-      }
+        }
     }
 
     move() {
-      if (this.movements.up && !this.isJumping) {
+      if (this.movements.up && !this.isJumping && this.canJump) {
         this.isJumping = true;
         this.canJump = false;
 
         setTimeout(() => {
           this.isJumping = false;
         }, 200);
-
-        setTimeout(() => {
-          this.canJump = true;
-        }, 2000);
-
       }
 
       if (!this.isJumping) {

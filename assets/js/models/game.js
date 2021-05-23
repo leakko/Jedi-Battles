@@ -56,11 +56,13 @@ class Game {
             if(this.jediOne.collidesWith(tile)) {
                 this.jediOne.y = tile.y - this.jediOne.spriteRunRight.height/this.jediOne.spriteRunRight.verticalFrames -107;
                 this.jediOne.vy = 0;
+                this.jediOne.canJump = true;
         }})
         this.tiles.forEach ((tile) => {
             if(this.jediTwo.collidesWith(tile)) {
                 this.jediTwo.y = tile.y - this.jediTwo.spriteRunRight.height/this.jediTwo.spriteRunRight.verticalFrames -107;
                 this.jediTwo.vy = 0;
+                this.jediTwo.canJump = true;
         }})
         this.jediOne.move();
         this.jediTwo.move();

@@ -238,41 +238,34 @@ class JediOne {
 
       onKeyEvent(event) {
         const status = event.type === 'keydown'
-        switch (event.keyCode) {
-          case 87:
-            this.movements.up = status
-            break;
-          case 68:
-            this.movements.right = status
-            break;
-          case 65:
-            this.movements.left = status
-            break;
-          case 83:
-            this.movements.down = status
-            break;
-          case 69:
-            this.isAttacking = status
-            break;
-    
-          default:
-            break;
+        const eventCode = event.keyCode;
+
+        if (eventCode == 87) {
+          if (this.canJump) {
+            this.movements.up = status;
+          }
+          if (!this.canJump) {
+            this.movements.up = false;
+          }
+        } else if (eventCode == 68) {
+          this.movements.right = status
+        } else if (eventCode == 65) {
+          this.movements.left = status
+        } else if (eventCode == 83) {
+          this.movements.down = status
+        } else if (eventCode == 69) {
+          this.isAttacking = status
         }
       }
 
       move() {
-        if (this.movements.up && !this.isJumping) {
+        if (this.movements.up && !this.isJumping && this.canJump) {
           this.isJumping = true;
           this.canJump = false;
 
           setTimeout(() => {
             this.isJumping = false;
           }, 200);
-
-          setTimeout(() => {
-            this.canJump = true;
-          }, 2000);
-
         }
 
         if (!this.isJumping) {
