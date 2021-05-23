@@ -1,13 +1,15 @@
-class Background {
-    constructor (ctx) {
+class Portal {
+    constructor(ctx, x, y) {
+        
         this.ctx = ctx;
-        this.x = -10;
-        this.y = 0;
-        this.height = this.ctx.canvas.height + 100;
-        this.width = this.ctx.canvas.width;
+        this.x = x;
+        this.y = y;
+        this.height = 100;
+        this.width = 150;
+
         
         this.img = new Image();
-        this.img.src = "./assets/img/mountains/mountains2.jpg"
+        this.img.src = "./assets/img/portal/portalInverse.png";
         this.img.isReady = false;
         this.img.onload = () => {
             this.img.isReady = true;

@@ -1,13 +1,13 @@
-class Background {
+class Title {
     constructor (ctx) {
         this.ctx = ctx;
-        this.x = -10;
-        this.y = 0;
-        this.height = this.ctx.canvas.height + 100;
-        this.width = this.ctx.canvas.width;
+        this.x = 850;
+        this.y = 10;
+        this.height = 100;
+        this.width = 400;
         
         this.img = new Image();
-        this.img.src = "./assets/img/mountains/mountains2.jpg"
+        this.img.src = "./assets/img/title/title.png"
         this.img.isReady = false;
         this.img.onload = () => {
             this.img.isReady = true;

@@ -9,6 +9,8 @@ class Game {
         this.drawInterval = undefined;
 
         this.background = new Background(this.ctx);
+        this.sun = new Sun(this.ctx);
+        this.title = new Title(this.ctx);
         this.tiles = [
             new Tile(this.ctx, 200, 500),
             new Tile(this.ctx, 300, 500),
@@ -22,6 +24,14 @@ class Game {
             new Tile(this.ctx, 500, 300),
             new Tile(this.ctx, 600, 300),
         ]
+
+        this.portals = [
+            new Portal(this.ctx, 375, 325),
+            new Portal(this.ctx, 475, 325),
+            new Portal(this.ctx, 575, 325),
+            new Portal(this.ctx, 675, 325),
+        ]
+
         this.jediOne = new JediOne(this.ctx, 150, 286);
         this.jediTwo = new JediTWo(this.ctx, 865, 286);
 
@@ -43,8 +53,11 @@ class Game {
 
     draw () {
         this.background.draw();
+        this.sun.draw();
+        this.title.draw();
         this.tiles.forEach (tile => tile.draw());
         this.extraTiles.forEach (tile => tile.draw());
+        this.portals.forEach (portal => portal.draw());
         this.jediOne.animateRun()
         this.jediOne.draw();
         this.jediTwo.animateRun();
@@ -52,6 +65,7 @@ class Game {
     }
 
     move() {
+        this.sun.move();
         this.tiles.forEach ((tile) => {
             if(this.jediOne.collidesWith(tile)) {
                 this.jediOne.y = tile.y - this.jediOne.spriteRunRight.height/this.jediOne.spriteRunRight.verticalFrames -107;
