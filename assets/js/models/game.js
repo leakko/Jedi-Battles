@@ -48,6 +48,30 @@ class Game {
             new Tile(this.ctx, 1000, 500),
             new Tile(this.ctx, 700, 300),
         ]
+
+        this.isGameOver = false;
+
+        this.gameOverImg = new Image();
+            this.gameOverImg.src = "./assets/img/gameOver/gameOver.jpg"
+            this.gameOverImg.isReady = false;
+
+            this.gameOverImg.onload = () => {
+                this.gameOverImg.isReady = true;
+            }
+        
+        this.win1Img = new Image();
+            this.win1Img.src = "./assets/img/win/player1.png"
+            this.win1Img.isReady = false;
+            this.win1Img.onload = () => {
+                this.win1Img.isReady = true;
+            } 
+
+        this.win2Img = new Image();
+            this.win2Img.src = "./assets/img/win/player2.png"
+            this.win2Img.isReady = false;
+            this.win2Img.onload = () => {
+                this.win2Img.isReady = true;
+            }
     } 
 
     start () {
@@ -57,6 +81,7 @@ class Game {
             this.move();
             this.combat();
             this.draw();
+            this.checkGameOver();
           }, this.fps)
         }
     }
@@ -106,13 +131,25 @@ class Game {
         let secondJedi = this.jediTwo;
         if (!firstJedi.canAttack && firstJedi.hitWith(secondJedi)) {
             secondJedi.health -= Math.round((firstJedi.spriteAttackRight.drawCount/50) + (firstJedi.spriteAttackLeft.drawCount/50));
+            if (secondJedi.health < 0) {
+                secondJedi.health = 0;
+            }
             secondJedi.x += (secondJedi.x - firstJedi.x)*0.05;
             secondJedi.y += 25*0.2;
+            if (secondJedi.health <= 0) {
+                secondJedi.death();
+            }
         }
         if (!secondJedi.canAttack && secondJedi.hitWith(firstJedi)) {
             firstJedi.health -= Math.round((secondJedi.spriteAttackRight.drawCount/50) + (secondJedi.spriteAttackLeft.drawCount/50));
+            if (firstJedi.health < 0) {
+                firstJedi.health = 0;
+            }
             firstJedi.x += (firstJedi.x - secondJedi.x)*0.05;
             firstJedi.y += 25*0.2;
+            if (firstJedi.health <= 0) {
+                firstJedi.death();
+            }
         }
     }
 
@@ -124,4 +161,68 @@ class Game {
         this.jediOne.onKeyEvent(event);
         this.jediTwo.onKeyEvent(event);
       }
+    
+    checkGameOver() {
+        if (this.jediOne.health <= 0 || this.jediOne.y > this.canvas.height + 200) {
+
+            this.ctx.save();
+
+            setTimeout (() => {
+                this.isGameOver = true;
+
+              if (this.gameOverImg.isReady) {
+                  clearInterval(this.drawInterval);
+                  this.clear();
+                  this.ctx.drawImage (
+                      this.gameOverImg,
+                      0,
+                      0,
+                      this.canvas.width,
+                      this.canvas.height
+                  )
+                }
+              if (this.win2Img.isReady) {
+                  this.ctx.drawImage (
+                      this.win2Img,
+                      this.canvas.width/2 - 225,
+                      this.canvas.height * 5/6 - 100,
+                      450,
+                      100,
+                  )
+                }
+            }, 2500)
+            this.ctx.restore();
+        }
+
+        if (this.jediTwo.health <= 0 || this.jediTwo.y > this.canvas.height + 200) {
+
+            this.ctx.save();
+
+            setTimeout (() => {
+                this.isGameOver = true;
+
+              if (this.gameOverImg.isReady) {
+                  clearInterval(this.drawInterval);
+                  this.clear();
+                  this.ctx.drawImage (
+                      this.gameOverImg,
+                      0,
+                      0,
+                      this.canvas.width,
+                      this.canvas.height
+                  )
+                }
+              if (this.win1Img.isReady) {
+                  this.ctx.drawImage (
+                      this.win1Img,
+                      this.canvas.width/2 - 225,
+                      this.canvas.height * 5/6 - 100,
+                      450,
+                      100,
+                  )
+                }
+            }, 2500)
+            this.ctx.restore();
+        }
+    }
 }

@@ -14,8 +14,13 @@ class JediTWo {
     this.health = 100;
     this.damage = 20;
 
+    this.dead = false;
 
-    this.drawCount = 0;
+    this.drawCount = 0
+
+    this.deathIntervalRight = undefined;
+    this.deathIntervalLeft = undefined;
+
 
 
     this.spriteAttackRight = new Image()
@@ -154,42 +159,9 @@ class JediTWo {
   }
 
   draw() {
-    if (this.canAttack) {
-      if(this.movements.right) {
-        if (this.spriteRunRight.isReady) {
-          this.ctx.drawImage(
-            this.spriteRunRight,
-            this.spriteRunRight.horizontalFrameIndex * this.spriteRunRight.frameWidth,
-            this.spriteRunRight.verticalFrameIndex * this.spriteRunRight.frameHeight,
-            this.spriteRunRight.frameWidth,
-            this.spriteRunRight.frameHeight,
-            this.x,
-            this.y,
-            this.spriteRunRight.frameWidth*2,
-            this.spriteRunRight.frameHeight*2,
-          )
-  
-          this.spriteRunRight.drawCount++;
-          this.lastDirection = "right";
-        }
-      } else if (this.movements.left) {
-        if (this.spriteRunLeft.isReady) {
-          this.ctx.drawImage(
-            this.spriteRunLeft,
-            this.spriteRunLeft.horizontalFrameIndex * this.spriteRunLeft.frameWidth,
-            this.spriteRunLeft.verticalFrameIndex * this.spriteRunLeft.frameHeight,
-            this.spriteRunLeft.frameWidth,
-            this.spriteRunLeft.frameHeight,
-            this.x,
-            this.y,
-            this.spriteRunLeft.frameWidth*2,
-            this.spriteRunLeft.frameHeight*2,
-          )
-          this.spriteRunLeft.drawCount++;
-          this.lastDirection = "left";
-        }
-      } else {
-        if (this.lastDirection == "right") {
+    if(!this.dead) {
+      if (this.canAttack) {
+        if(this.movements.right) {
           if (this.spriteRunRight.isReady) {
             this.ctx.drawImage(
               this.spriteRunRight,
@@ -202,106 +174,206 @@ class JediTWo {
               this.spriteRunRight.frameWidth*2,
               this.spriteRunRight.frameHeight*2,
             )
-            this.spriteRunRight.drawCount = 0;
-            this.spriteRunLeft.drawCount = 0;
+    
+            this.spriteRunRight.drawCount++;
+            this.lastDirection = "right";
+          }
+        } else if (this.movements.left) {
+          if (this.spriteRunLeft.isReady) {
+            this.ctx.drawImage(
+              this.spriteRunLeft,
+              this.spriteRunLeft.horizontalFrameIndex * this.spriteRunLeft.frameWidth,
+              this.spriteRunLeft.verticalFrameIndex * this.spriteRunLeft.frameHeight,
+              this.spriteRunLeft.frameWidth,
+              this.spriteRunLeft.frameHeight,
+              this.x,
+              this.y,
+              this.spriteRunLeft.frameWidth*2,
+              this.spriteRunLeft.frameHeight*2,
+            )
+            this.spriteRunLeft.drawCount++;
+            this.lastDirection = "left";
+          }
+        } else {
+          if (this.lastDirection == "right") {
+            if (this.spriteRunRight.isReady) {
+              this.ctx.drawImage(
+                this.spriteRunRight,
+                this.spriteRunRight.horizontalFrameIndex * this.spriteRunRight.frameWidth,
+                this.spriteRunRight.verticalFrameIndex * this.spriteRunRight.frameHeight,
+                this.spriteRunRight.frameWidth,
+                this.spriteRunRight.frameHeight,
+                this.x,
+                this.y,
+                this.spriteRunRight.frameWidth*2,
+                this.spriteRunRight.frameHeight*2,
+              )
+              this.spriteRunRight.drawCount = 0;
+              this.spriteRunLeft.drawCount = 0;
+            }
+          } else if (this.lastDirection == "left") {
+            if (this.spriteRunLeft.isReady) {
+              this.ctx.drawImage(
+                this.spriteRunLeft,
+                this.spriteRunLeft.horizontalFrameIndex * this.spriteRunLeft.frameWidth,
+                this.spriteRunLeft.verticalFrameIndex * this.spriteRunLeft.frameHeight,
+                this.spriteRunLeft.frameWidth,
+                this.spriteRunLeft.frameHeight,
+                this.x,
+                this.y,
+                this.spriteRunLeft.frameWidth*2,
+                this.spriteRunLeft.frameHeight*2,
+              )
+              this.spriteRunRight.drawCount = 0;
+              this.spriteRunLeft.drawCount = 0;
+            }
+          }  else {
+            if (this.spriteRunLeft.isReady) {
+              this.ctx.drawImage(
+                this.spriteRunLeft,
+                this.spriteRunLeft.horizontalFrameIndex * this.spriteRunLeft.frameWidth,
+                this.spriteRunLeft.verticalFrameIndex * this.spriteRunLeft.frameHeight,
+                this.spriteRunLeft.frameWidth,
+                this.spriteRunLeft.frameHeight,
+                this.x,
+                this.y,
+                this.spriteRunLeft.frameWidth*2,
+                this.spriteRunLeft.frameHeight*2,
+              )
+              this.spriteRunLeft.drawCount = 0;
+              this.spriteRunLeft.drawCount = 0;
+            }
+        }
+        }
+      } else {
+        if (this.lastDirection == "right") {
+          if (this.spriteAttackRight.isReady) {
+            this.ctx.drawImage(
+              this.spriteAttackRight,
+              this.spriteAttackRight.horizontalFrameIndex * this.spriteAttackRight.frameWidth,
+              this.spriteAttackRight.verticalFrameIndex * this.spriteAttackRight.frameHeight,
+              this.spriteAttackRight.frameWidth,
+              this.spriteAttackRight.frameHeight,
+              this.x,
+              this.y,
+              this.spriteAttackRight.frameWidth*2,
+              this.spriteAttackRight.frameHeight*2,
+            )
+            if(this.spriteAttackRight.drawCount++ > 56) {
+              this.spriteAttackRight.drawCount = 0;
+            }
+            if(this.spriteAttackLeft.drawCount++ > 56) {
+              this.spriteAttackLeft.drawCount = 0;
+            }
+            this.spriteAttackRight.drawCount++;
           }
         } else if (this.lastDirection == "left") {
-          if (this.spriteRunLeft.isReady) {
+          if (this.spriteAttackLeft.isReady) {
             this.ctx.drawImage(
-              this.spriteRunLeft,
-              this.spriteRunLeft.horizontalFrameIndex * this.spriteRunLeft.frameWidth,
-              this.spriteRunLeft.verticalFrameIndex * this.spriteRunLeft.frameHeight,
-              this.spriteRunLeft.frameWidth,
-              this.spriteRunLeft.frameHeight,
+              this.spriteAttackLeft,
+              this.spriteAttackLeft.horizontalFrameIndex * this.spriteAttackLeft.frameWidth,
+              this.spriteAttackLeft.verticalFrameIndex * this.spriteAttackLeft.frameHeight,
+              this.spriteAttackLeft.frameWidth,
+              this.spriteAttackLeft.frameHeight,
               this.x,
               this.y,
-              this.spriteRunLeft.frameWidth*2,
-              this.spriteRunLeft.frameHeight*2,
+              this.spriteAttackLeft.frameWidth*2,
+              this.spriteAttackLeft.frameHeight*2,
             )
-            this.spriteRunRight.drawCount = 0;
-            this.spriteRunLeft.drawCount = 0;
+            if(this.spriteAttackRight.drawCount++ > 56) {
+              this.spriteAttackRight.drawCount = 0;
+            }
+            if(this.spriteAttackLeft.drawCount++ > 56) {
+              this.spriteAttackLeft.drawCount = 0;
+            }
+            this.spriteAttackLeft.drawCount++;
           }
-        }  else {
-          if (this.spriteRunLeft.isReady) {
+        } else {
+          if (this.spriteAttackLeft.isReady) {
             this.ctx.drawImage(
-              this.spriteRunLeft,
-              this.spriteRunLeft.horizontalFrameIndex * this.spriteRunLeft.frameWidth,
-              this.spriteRunLeft.verticalFrameIndex * this.spriteRunLeft.frameHeight,
-              this.spriteRunLeft.frameWidth,
-              this.spriteRunLeft.frameHeight,
+              this.spriteAttackLeft,
+              this.spriteAttackLeft.horizontalFrameIndex * this.spriteAttackLeft.frameWidth,
+              this.spriteAttackLeft.verticalFrameIndex * this.spriteAttackLeft.frameHeight,
+              this.spriteAttackLeft.frameWidth,
+              this.spriteAttackLeft.frameHeight,
               this.x,
               this.y,
-              this.spriteRunLeft.frameWidth*2,
-              this.spriteRunLeft.frameHeight*2,
+              this.spriteAttackLeft.frameWidth*2,
+              this.spriteAttackLeft.frameHeight*2,
             )
-            this.spriteRunLeft.drawCount = 0;
-            this.spriteRunLeft.drawCount = 0;
+            if(this.spriteAttackRight.drawCount++ > 56) {
+              this.spriteAttackRight.drawCount = 0;
+            }
+            if(this.spriteAttackLeft.drawCount++ > 56) {
+              this.spriteAttackLeft.drawCount = 0;
+            }
+            this.spriteAttackLeft.drawCount++;
           }
-      }
+        }
       }
     } else {
       if (this.lastDirection == "right") {
-        if (this.spriteAttackRight.isReady) {
+        if (this.spriteDeathRight.isReady) {
           this.ctx.drawImage(
-            this.spriteAttackRight,
-            this.spriteAttackRight.horizontalFrameIndex * this.spriteAttackRight.frameWidth,
-            this.spriteAttackRight.verticalFrameIndex * this.spriteAttackRight.frameHeight,
-            this.spriteAttackRight.frameWidth,
-            this.spriteAttackRight.frameHeight,
+            this.spriteDeathRight,
+            this.spriteDeathRight.horizontalFrameIndex * this.spriteDeathRight.frameWidth,
+            this.spriteDeathRight.verticalFrameIndex * this.spriteDeathRight.frameHeight,
+            this.spriteDeathRight.frameWidth,
+            this.spriteDeathRight.frameHeight,
             this.x,
             this.y,
-            this.spriteAttackRight.frameWidth*2,
-            this.spriteAttackRight.frameHeight*2,
+            this.spriteDeathRight.frameWidth*2,
+            this.spriteDeathRight.frameHeight*2,
           )
-          if(this.spriteAttackRight.drawCount++ > 56) {
-            this.spriteAttackRight.drawCount = 0;
+          if(this.spriteDeathRight.drawCount++ > 56) {
+            this.spriteDeathRight.drawCount = 0;
           }
-          if(this.spriteAttackLeft.drawCount++ > 56) {
-            this.spriteAttackLeft.drawCount = 0;
+          if(this.spriteDeathLeft.drawCount++ > 56) {
+            this.spriteDeathLeft.drawCount = 0;
           }
-          this.spriteAttackRight.drawCount++;
+          this.spriteDeathRight.drawCount++;
         }
       } else if (this.lastDirection == "left") {
-        if (this.spriteAttackLeft.isReady) {
+        if (this.spriteDeathLeft.isReady) {
           this.ctx.drawImage(
-            this.spriteAttackLeft,
-            this.spriteAttackLeft.horizontalFrameIndex * this.spriteAttackLeft.frameWidth,
-            this.spriteAttackLeft.verticalFrameIndex * this.spriteAttackLeft.frameHeight,
-            this.spriteAttackLeft.frameWidth,
-            this.spriteAttackLeft.frameHeight,
+            this.spriteDeathLeft,
+            this.spriteDeathLeft.horizontalFrameIndex * this.spriteDeathLeft.frameWidth,
+            this.spriteDeathLeft.verticalFrameIndex * this.spriteDeathLeft.frameHeight,
+            this.spriteDeathLeft.frameWidth,
+            this.spriteDeathLeft.frameHeight,
             this.x,
             this.y,
-            this.spriteAttackLeft.frameWidth*2,
-            this.spriteAttackLeft.frameHeight*2,
+            this.spriteDeathLeft.frameWidth*2,
+            this.spriteDeathLeft.frameHeight*2,
           )
-          if(this.spriteAttackRight.drawCount++ > 56) {
-            this.spriteAttackRight.drawCount = 0;
+          if(this.spriteDeathRight.drawCount++ > 56) {
+            this.spriteDeathRight.drawCount = 0;
           }
-          if(this.spriteAttackLeft.drawCount++ > 56) {
-            this.spriteAttackLeft.drawCount = 0;
+          if(this.spriteDeathLeft.drawCount++ > 56) {
+            this.spriteDeathLeft.drawCount = 0;
           }
-          this.spriteAttackLeft.drawCount++;
+          this.spriteDeathLeft.drawCount++;
         }
       } else {
-        if (this.spriteAttackLeft.isReady) {
+        if (this.spriteDeathLeft.isReady) {
           this.ctx.drawImage(
-            this.spriteAttackLeft,
-            this.spriteAttackLeft.horizontalFrameIndex * this.spriteAttackLeft.frameWidth,
-            this.spriteAttackLeft.verticalFrameIndex * this.spriteAttackLeft.frameHeight,
-            this.spriteAttackLeft.frameWidth,
-            this.spriteAttackLeft.frameHeight,
+            this.spriteDeathLeft,
+            this.spriteDeathLeft.horizontalFrameIndex * this.spriteDeathLeft.frameWidth,
+            this.spriteDeathLeft.verticalFrameIndex * this.spriteDeathLeft.frameHeight,
+            this.spriteDeathLeft.frameWidth,
+            this.spriteDeathLeft.frameHeight,
             this.x,
             this.y,
-            this.spriteAttackLeft.frameWidth*2,
-            this.spriteAttackLeft.frameHeight*2,
+            this.spriteDeathLeft.frameWidth*2,
+            this.spriteDeathLeft.frameHeight*2,
           )
-          if(this.spriteAttackRight.drawCount++ > 56) {
-            this.spriteAttackRight.drawCount = 0;
+          if(this.spriteDeathLeft.drawCount++ > 56) {
+            this.spriteDeathLeft.drawCount = 0;
           }
-          if(this.spriteAttackLeft.drawCount++ > 56) {
-            this.spriteAttackLeft.drawCount = 0;
+          if(this.spriteDeathRight.drawCount++ > 56) {
+            this.spriteDeathRight.drawCount = 0;
           }
-          this.spriteAttackLeft.drawCount++;
+          this.spriteDeathLeft.drawCount++;
         }
       }
     }
@@ -324,7 +396,7 @@ class JediTWo {
           this.movements.left = status
         } else if (eventCode == 40) {
           this.movements.down = status
-        } else if (eventCode == 96) {
+        } else if (eventCode == 220) {
           if (this.canAttack) {
             this.isAttacking = status;
             this.canAttack = false;
@@ -336,43 +408,45 @@ class JediTWo {
     }
 
     move() {
-      if (this.movements.up && !this.isJumping && this.canJump) {
-        this.isJumping = true;
-        this.canJump = false;
-
-        setTimeout(() => {
-          this.isJumping = false;
-        }, 200);
-      }
-
-      if (!this.isJumping) {
-        if (this.movements.right) {
-          this.vx = 4
-
-        } else if (this.movements.left) {
-          this.vx = -4
-        } else {
-          this.vx = 0
+      if (!this.dead) {
+        if (this.movements.up && !this.isJumping && this.canJump) {
+          this.isJumping = true;
+          this.canJump = false;
+  
+          setTimeout(() => {
+            this.isJumping = false;
+          }, 200);
         }
-
-        this.ay = 0.3;
-        if (this.vy < 20) {
+  
+        if (!this.isJumping) {
+          if (this.movements.right) {
+            this.vx = 4
+  
+          } else if (this.movements.left) {
+            this.vx = -4
+          } else {
+            this.vx = 0
+          }
+  
+          this.ay = 0.3;
+          if (this.vy < 20) {
+            this.vy += this.ay;
+          }
           this.vy += this.ay;
+          this.y += this.vy;
+          this.x += this.vx
         }
-        this.vy += this.ay;
-        this.y += this.vy;
-        this.x += this.vx
-      }
-
-      if (this.isJumping) {
-          this.vx = 0;
-          this.vy = -12
-          this.ay = 2
-        if (this.vy < 20) {
-          this.vy += this.ay;
+  
+        if (this.isJumping) {
+            this.vx = 0;
+            this.vy = -12
+            this.ay = 2
+          if (this.vy < 20) {
+            this.vy += this.ay;
+          }
+          this.y += this.vy;
+          this.x += this.vx
         }
-        this.y += this.vy;
-        this.x += this.vx
       }
     }
 
@@ -428,6 +502,27 @@ class JediTWo {
       }
     }
 
+    animateDeath () {
+      if (this.dead) {
+        if (this.spriteDeathRight.verticalFrameIndex < this.spriteDeathRight.verticalFrames) {
+          this.deathIntervalRight = setInterval (() => {
+            this.spriteDeathRight.verticalFrameIndex++
+          }, 400)
+        } else {
+          clearInterval(this.deathIntervalRight)
+        }
+
+        if (this.spriteDeathLeft.verticalFrameIndex < this.spriteDeathLeft.verticalFrames) {
+          this.deathIntervalLeft = setInterval (() => {
+            this.spriteDeathLeft.verticalFrameIndex++
+          }, 400)
+        } else {
+          clearInterval(this.deathIntervalLeft)
+        }
+      }
+    }
+
+
     collidesWith (tile) {
       return this.x +20 + Math.floor(this.spriteRunLeft.width / this.spriteRunLeft.horizontalFrames) >= tile.x && 
       this.x + 20 <= tile.x + tile.width &&
@@ -447,5 +542,10 @@ class JediTWo {
         this.y + 107 >= otherJedi.y + 107 &&
         this.y + 107 <= otherJedi.y + Math.floor(this.spriteRunRight.height / this.spriteRunRight.verticalFrames) + 107;
         }
+      }
+
+   death () {
+        this.dead = true;
+        this.animateDeath();
       }
 }
