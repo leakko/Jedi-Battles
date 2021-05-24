@@ -1,13 +1,13 @@
-class PlayerNumber {
+class LifeFrame {
     constructor(ctx) {
         
         this.ctx = ctx;
-        this.height = 30;
-        this.width = 100;
+        this.height = 80;
+        this.width = 110;
 
         
         this.img = new Image();
-        this.img.src = "./assets/img/players/player1.png";
+        this.img.src = "./assets/img/lifeFrame/lifeFrame.png";
         this.img.isReady = false;
         this.img.onload = () => {
             this.img.isReady = true;
@@ -22,7 +22,7 @@ class PlayerNumber {
         if (this.isReady()) {
             this.ctx.drawImage (
                 this.img,
-                x + 90,
+                x + 85,
                 y + 60,
                 this.width,
                 this.height

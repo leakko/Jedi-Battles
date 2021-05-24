@@ -35,6 +35,15 @@ class Game {
         this.jediOne = new JediOne(this.ctx, 150, 286);
         this.jediTwo = new JediTWo(this.ctx, 865, 286);
 
+        this.player1 = new PlayerNumber (this.ctx, 1);
+        this.player2 = new PlayerNumber (this.ctx, 2);
+
+        this.life1 = new LifeBar (this.ctx);
+        this.life2 = new LifeBar (this.ctx);
+
+        this.lifeFrame1 = new LifeFrame (this.ctx);
+        this.lifeFrame2 = new LifeFrame (this.ctx);
+
         this.extraTiles = [
             new Tile(this.ctx, 1000, 500),
             new Tile(this.ctx, 700, 300),
@@ -62,9 +71,16 @@ class Game {
         this.jediOne.animateRun()
         this.jediOne.animateAttack()
         this.jediOne.draw();
+        this.player1.draw(this.jediOne.x, this.jediOne.y);
+        this.life1.draw(this.jediOne.x, this.jediOne.y, this.jediOne.health);
+        this.lifeFrame1.draw(this.jediOne.x, this.jediOne.y, this.jediOne.health)
         this.jediTwo.animateRun();
         this.jediTwo.animateAttack();
         this.jediTwo.draw();
+        this.player2.draw(this.jediTwo.x, this.jediTwo.y)
+        this.life2.draw(this.jediTwo.x, this.jediTwo.y, this.jediTwo.health);
+        this.lifeFrame2.draw(this.jediTwo.x, this.jediTwo.y, this.jediTwo.health)
+
     }
 
     move() {
