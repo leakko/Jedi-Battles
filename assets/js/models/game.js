@@ -72,9 +72,23 @@ class Game {
             this.win2Img.onload = () => {
                 this.win2Img.isReady = true;
             }
+    
+        this.isRestartCalled = false;
+        this.isPlaying = false;
     } 
 
     start () {
+        this.isPlaying = true;
+        this.isRestartCalled = false;
+        this.jediOne.x = 150;
+        this.jediOne.y = 286;
+        this.jediOne.health = 100;
+        this.jediOne.lastDirection = "right";
+        this.jediTwo.x = 865;
+        this.jediTwo.y = 286;
+        this.jediTwo.health = 100;
+        this.jediTwo.lastDirection = "left";
+
         if (!this.drawInterval) {
           this.drawInterval = setInterval (() => {
             this.clear();
@@ -160,7 +174,7 @@ class Game {
     onKeyEvent(event) {
         this.jediOne.onKeyEvent(event);
         this.jediTwo.onKeyEvent(event);
-      }
+    }
     
     checkGameOver() {
         if (this.jediOne.health <= 0 || this.jediOne.y > this.canvas.height + 200) {
@@ -184,14 +198,17 @@ class Game {
               if (this.win2Img.isReady) {
                   this.ctx.drawImage (
                       this.win2Img,
-                      this.canvas.width/2 - 225,
-                      this.canvas.height * 5/6 - 100,
-                      450,
+                      this.canvas.width/2 - 300,
+                      this.canvas.height * 5/6 - 75,
+                      600,
                       100,
                   )
                 }
+                this.ctx.restore();
+                this.drawInterval = undefined;
+                this.restart();
             }, 2500)
-            this.ctx.restore();
+
         }
 
         if (this.jediTwo.health <= 0 || this.jediTwo.y > this.canvas.height + 200) {
@@ -212,17 +229,23 @@ class Game {
                       this.canvas.height
                   )
                 }
-              if (this.win1Img.isReady) {
+              if (this.win2Img.isReady) {
                   this.ctx.drawImage (
                       this.win1Img,
-                      this.canvas.width/2 - 225,
-                      this.canvas.height * 5/6 - 100,
-                      450,
+                      this.canvas.width/2 - 300,
+                      this.canvas.height * 5/6 - 75,
+                      600,
                       100,
                   )
                 }
+                this.ctx.restore();
+                this.drawInterval = undefined;
+                this.restart();
             }, 2500)
-            this.ctx.restore();
         }
+    }
+
+    restart () {
+        
     }
 }
