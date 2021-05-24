@@ -1,4 +1,4 @@
-class PlayerNumber {
+class Player1 {
     constructor(ctx) {
         
         this.ctx = ctx;

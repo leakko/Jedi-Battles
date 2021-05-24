@@ -35,8 +35,8 @@ class Game {
         this.jediOne = new JediOne(this.ctx, 150, 286);
         this.jediTwo = new JediTWo(this.ctx, 865, 286);
 
-        this.player1 = new PlayerNumber (this.ctx, 1);
-        this.player2 = new PlayerNumber (this.ctx, 2);
+        this.player1 = new Player1 (this.ctx, 1);
+        this.player2 = new Player2 (this.ctx, 2);
 
         this.life1 = new LifeBar (this.ctx);
         this.life2 = new LifeBar (this.ctx);
@@ -105,10 +105,14 @@ class Game {
         let firstJedi = this.jediOne;
         let secondJedi = this.jediTwo;
         if (!firstJedi.canAttack && firstJedi.hitWith(secondJedi)) {
-            secondJedi.health -= Math.round((firstJedi.spriteAttackRight.drawCount/100) + (firstJedi.spriteAttackLeft.drawCount/100));
+            secondJedi.health -= Math.round((firstJedi.spriteAttackRight.drawCount/50) + (firstJedi.spriteAttackLeft.drawCount/50));
+            secondJedi.x += (secondJedi.x - firstJedi.x)*0.05;
+            secondJedi.y += 25*0.2;
         }
         if (!secondJedi.canAttack && secondJedi.hitWith(firstJedi)) {
-            firstJedi.health -= Math.round((secondJedi.spriteAttackRight.drawCount/100) + (secondJedi.spriteAttackLeft.drawCount/100));
+            firstJedi.health -= Math.round((secondJedi.spriteAttackRight.drawCount/50) + (secondJedi.spriteAttackLeft.drawCount/50));
+            firstJedi.x += (firstJedi.x - secondJedi.x)*0.05;
+            firstJedi.y += 25*0.2;
         }
     }
 
