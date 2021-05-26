@@ -75,6 +75,10 @@ class Game {
     
         this.isRestartCalled = false;
         this.isPlaying = false;
+
+        this.theme = new Audio("./assets/audio/music.mp3")
+        this.theme.volume = 0.1;
+
     } 
 
     start () {
@@ -177,12 +181,11 @@ class Game {
     }
     
     checkGameOver() {
-        if (this.jediOne.health <= 0 || this.jediOne.y > this.canvas.height + 200) {
+        if (this.jediOne.health <= 0 || this.jediOne.y > this.canvas.height) {
 
             this.ctx.save();
 
             setTimeout (() => {
-                this.isGameOver = true;
 
               if (this.gameOverImg.isReady) {
                   clearInterval(this.drawInterval);
@@ -205,18 +208,18 @@ class Game {
                   )
                 }
                 this.ctx.restore();
-                this.drawInterval = undefined;
                 this.restart();
-            }, 2500)
+                this.theme.pause();
+
+            }, 1500)
 
         }
 
-        if (this.jediTwo.health <= 0 || this.jediTwo.y > this.canvas.height + 200) {
+        if (this.jediTwo.health <= 0 || this.jediTwo.y > this.canvas.height) {
 
             this.ctx.save();
 
             setTimeout (() => {
-                this.isGameOver = true;
 
               if (this.gameOverImg.isReady) {
                   clearInterval(this.drawInterval);
@@ -239,13 +242,21 @@ class Game {
                   )
                 }
                 this.ctx.restore();
-                this.drawInterval = undefined;
                 this.restart();
-            }, 2500)
+                this.theme.pause();
+            }, 1500)
         }
     }
 
     restart () {
-        
+        this.restartTimeout = setTimeout (() => {
+            this.clear();
+            clearInterval(this.drawInterval);
+            this.drawInterval = undefined;
+            this.jediOne.dead = false;
+            this.jediTwo.dead = false;
+            document.getElementById("canvas").style.display = "none";
+            document.getElementById("info").style.display = "block";
+        }, 2000)
     }
 }

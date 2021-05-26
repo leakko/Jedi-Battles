@@ -18,6 +18,10 @@ class JediTWo {
 
     this.drawCount = 0
 
+    this.sword = new Audio("./assets/audio/finalSword.mp3");
+    this.sword.volume = 0.1;
+    this.sword.status = false;
+
     this.deathIntervalRight = undefined;
     this.deathIntervalLeft = undefined;
 
@@ -396,13 +400,14 @@ class JediTWo {
           this.movements.left = status
         } else if (eventCode == 40) {
           this.movements.down = status
-        } else if (eventCode == 220) {
+        } else if (eventCode == 189) {
+          this.sword.play();
           if (this.canAttack) {
             this.isAttacking = status;
             this.canAttack = false;
             this.AttackId = setTimeout (() => {
               this.canAttack = true;
-            }, 890)
+            }, 875)
           }
         }
     }
@@ -485,9 +490,6 @@ class JediTWo {
             this.spriteAttackRight.verticalFrameIndex++;
           }
         }
-        if (this.spriteAttackRight.drawCount == 0) {
-          this.spriteAttackRight.verticalFrameIndex = 0;
-        }
 
         if (this.spriteAttackLeft.drawCount % 3 == 0) {
           if (this.spriteAttackLeft.verticalFrameIndex >= this.spriteAttackLeft.verticalFrames - 1) {
@@ -495,9 +497,6 @@ class JediTWo {
           } else {
             this.spriteAttackLeft.verticalFrameIndex++;
           }
-        }
-        if (this.spriteAttackLeft.drawCount == 0) {
-          this.spriteAttackLeft.verticalFrameIndex = 0;
         }
       }
     }
