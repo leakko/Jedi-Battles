@@ -407,7 +407,7 @@ class JediOne {
             this.canAttack = false;
             this.AttackId = setTimeout (() => {
               this.canAttack = true;
-            }, 878)
+            }, 875)
           }
         }
       }
