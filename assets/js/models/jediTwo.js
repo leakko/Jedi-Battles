@@ -407,7 +407,7 @@ class JediTWo {
             this.canAttack = false;
             this.AttackId = setTimeout (() => {
               this.canAttack = true;
-            }, 875)
+            }, 878)
           }
         }
     }
