@@ -400,7 +400,7 @@ class JediTWo {
           this.movements.left = status
         } else if (eventCode == 40) {
           this.movements.down = status
-        } else if (eventCode == 189) {
+        } else if (eventCode == 191) {
           this.sword.play();
           if (this.canAttack) {
             this.isAttacking = status;
