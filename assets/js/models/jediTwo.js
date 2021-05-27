@@ -414,6 +414,7 @@ class JediTWo {
           }
         }
     }
+    //
 
     move() {
       if (!this.dead) {

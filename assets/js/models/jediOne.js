@@ -414,6 +414,7 @@ class JediOne {
           }
         }
       }
+      //
 
       move() {
         if (!this.dead) {
