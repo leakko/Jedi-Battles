@@ -403,7 +403,7 @@ class JediOne {
           this.movements.left = status
         } else if (eventCode == 83) {
           this.movements.down = status
-        } else if (eventCode == 69) {
+        } else if (eventCode == 82) {
           this.sword.play();
           if (this.canAttack) {
             this.isAttacking = status;
