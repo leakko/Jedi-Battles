@@ -381,6 +381,9 @@ class JediOne {
             }
           }
         }
+        if (this.y < -125) {
+          this.y = -125;
+        }
       }
 
       onKeyEvent(event) {
@@ -400,7 +403,7 @@ class JediOne {
           this.movements.left = status
         } else if (eventCode == 83) {
           this.movements.down = status
-        } else if (eventCode == 49) {
+        } else if (eventCode == 69) {
           this.sword.play();
           if (this.canAttack) {
             this.isAttacking = status;

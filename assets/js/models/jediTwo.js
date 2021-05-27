@@ -381,6 +381,9 @@ class JediTWo {
         }
       }
     }
+    if (this.y < -125) {
+      this.y = -125;
+    }
   }
 
     onKeyEvent(event) {
@@ -400,7 +403,7 @@ class JediTWo {
           this.movements.left = status
         } else if (eventCode == 40) {
           this.movements.down = status
-        } else if (eventCode == 225) {
+        } else if (eventCode == 96) {
           this.sword.play();
           if (this.canAttack) {
             this.isAttacking = status;
