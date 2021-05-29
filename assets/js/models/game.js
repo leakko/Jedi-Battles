@@ -82,6 +82,12 @@ class Game {
         this.birdSound = new Audio("./assets/audio/bird.mp3");
         this.birdSound.volume = 0.5;
 
+        this.injureSound = new Audio("./assets/audio/injure.mp3");
+        this.injureSound.volume = 0.5;
+
+        this.deathSound = new Audio("./assets/audio/death.mp3");
+        this.deathSound.volume = 0.5;
+
 
         this.birds = [];
 
@@ -166,6 +172,7 @@ class Game {
         let secondJedi = this.jediTwo;
         if (!firstJedi.canAttack && firstJedi.hitWith(secondJedi)) {
             secondJedi.health -= Math.round((firstJedi.spriteAttackRight.drawCount/50) + (firstJedi.spriteAttackLeft.drawCount/50));
+            this.injureSound.play();
             if (secondJedi.health < 0) {
                 secondJedi.health = 0;
             }
@@ -173,6 +180,7 @@ class Game {
             secondJedi.y += 25*0.2;
             if (secondJedi.health <= 0) {
                 secondJedi.death();
+                this.deathSound.play();
             }
         }
 
@@ -185,6 +193,7 @@ class Game {
 
         if (!secondJedi.canAttack && secondJedi.hitWith(firstJedi)) {
             firstJedi.health -= Math.round((secondJedi.spriteAttackRight.drawCount/50) + (secondJedi.spriteAttackLeft.drawCount/50));
+            this.injureSound.play();
             if (firstJedi.health < 0) {
                 firstJedi.health = 0;
             }
@@ -192,6 +201,7 @@ class Game {
             firstJedi.y += 25*0.2;
             if (firstJedi.health <= 0) {
                 firstJedi.death();
+                this.deathSound.play();
             }
         }
 
