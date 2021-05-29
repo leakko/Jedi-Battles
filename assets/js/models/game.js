@@ -79,9 +79,14 @@ class Game {
         this.theme = new Audio("./assets/audio/music.mp3")
         this.theme.volume = 0.1;
 
+        this.birds = [];
+
+        this.drawCount = 0;
+
     } 
 
     start () {
+        this.drawCount = 0;
         this.isPlaying = true;
         this.isRestartCalled = false;
         this.jediOne.x = 150;
@@ -92,6 +97,7 @@ class Game {
         this.jediTwo.y = 286;
         this.jediTwo.health = 100;
         this.jediTwo.lastDirection = "left";
+        this.birds = [];
 
         if (!this.drawInterval) {
           this.drawInterval = setInterval (() => {
@@ -100,14 +106,18 @@ class Game {
             this.combat();
             this.draw();
             this.checkGameOver();
+            this.generateBird();
           }, this.fps)
         }
     }
 
     draw () {
+        this.drawCount++
         this.background.draw();
         this.sun.draw();
         this.title.draw();
+        this.birds.forEach (bird => bird.animateFly());
+        this.birds.forEach (bird => bird.draw());
         this.tiles.forEach (tile => tile.draw());
         this.extraTiles.forEach (tile => tile.draw());
         this.portals.forEach (portal => portal.draw());
@@ -123,7 +133,6 @@ class Game {
         this.player2.draw(this.jediTwo.x, this.jediTwo.y)
         this.life2.draw(this.jediTwo.x, this.jediTwo.y, this.jediTwo.health);
         this.lifeFrame2.draw(this.jediTwo.x, this.jediTwo.y, this.jediTwo.health)
-
     }
 
     move() {
@@ -142,6 +151,9 @@ class Game {
         }})
         this.jediOne.move();
         this.jediTwo.move();
+        //if (this.drawCount % 2 == 0) {
+            this.birds.forEach (bird => bird.move());
+        //}
     }
 
     combat () {
@@ -258,5 +270,18 @@ class Game {
             document.getElementById("canvas").style.display = "none";
             document.getElementById("info").style.display = "block";
         }, 2000)
+    }
+
+    generateBird() {
+        let direction = Math.round(Math.random() + 1);
+        if (direction == 1) {
+            if(this.drawCount % 600 == 0) {
+                this.birds.push(new BirdRight(this.ctx));
+            }
+        } else if (direction == 2) {
+            if(this.drawCount % 600 == 0) {
+                this.birds.push(new BirdLeft(this.ctx));
+            }
+        }
     }
 }
