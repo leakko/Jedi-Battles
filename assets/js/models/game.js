@@ -79,6 +79,10 @@ class Game {
         this.theme = new Audio("./assets/audio/music.mp3")
         this.theme.volume = 0.1;
 
+        this.birdSound = new Audio("./assets/audio/bird.mp3");
+        this.birdSound.volume = 0.5;
+
+
         this.birds = [];
 
         this.drawCount = 0;
@@ -98,6 +102,7 @@ class Game {
         this.jediTwo.health = 100;
         this.jediTwo.lastDirection = "left";
         this.birds = [];
+        this.birds.push (new BirdRight(this.ctx));
 
         if (!this.drawInterval) {
           this.drawInterval = setInterval (() => {
@@ -170,6 +175,14 @@ class Game {
                 secondJedi.death();
             }
         }
+
+        this.birds.forEach((bird) => {
+            if (!firstJedi.canAttack && firstJedi.collidesBird (bird)) {
+                bird.isDead = true;
+                this.birdSound.play();
+            }
+        })
+
         if (!secondJedi.canAttack && secondJedi.hitWith(firstJedi)) {
             firstJedi.health -= Math.round((secondJedi.spriteAttackRight.drawCount/50) + (secondJedi.spriteAttackLeft.drawCount/50));
             if (firstJedi.health < 0) {
@@ -181,6 +194,13 @@ class Game {
                 firstJedi.death();
             }
         }
+
+        this.birds.forEach((bird) => {
+            if (!secondJedi.canAttack && secondJedi.collidesBird (bird)) {
+                bird.isDead = true;
+                this.birdSound.play();
+            }
+        })
     }
 
     clear () {
@@ -273,15 +293,21 @@ class Game {
     }
 
     generateBird() {
-        let direction = Math.round(Math.random() + 1);
-        if (direction == 1) {
-            if(this.drawCount % 600 == 0) {
+        let direction = Math.random();
+        if (direction < 0.5) {
+            if(this.drawCount % 200 == 0) {
                 this.birds.push(new BirdRight(this.ctx));
             }
-        } else if (direction == 2) {
-            if(this.drawCount % 600 == 0) {
+        } else {
+            if(this.drawCount % 200 == 0) {
                 this.birds.push(new BirdLeft(this.ctx));
             }
         }
+
+        this.birds.forEach ((bird, index) => {
+            if(bird.x > 2000 || bird.x < -200 || bird.y > 1000) {
+                this.birds.splice(index, 1);
+            }
+        })
     }
 }

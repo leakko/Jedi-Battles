@@ -414,7 +414,7 @@ class JediTWo {
           }
         }
     }
-    //
+    
 
     move() {
       if (!this.dead) {
@@ -531,6 +531,24 @@ class JediTWo {
       this.x + 20 <= tile.x + tile.width &&
       this.y + Math.floor(this.spriteRunRight.height / this.spriteRunRight.verticalFrames) + 107 >= tile.y &&
       this.y + Math.floor(this.spriteRunRight.height / this.spriteRunRight.verticalFrames) + 107 <= tile.y + tile.height
+    }
+
+    collidesBird (bird) {
+      if (this.lastDirection == "left") {
+        return ((this.x + 75 <= bird.x + bird.width && this.x + 75 >= bird.x) || 
+        (this.x + 125 <= bird.x + bird.width && this.x + 125 >= bird.x))
+        &&
+        ((this.y + 140 <= bird.y + bird.height && this.y + 140 >= bird.y) ||
+        (this.y + this.spriteAttackRight.frameHeight <= bird.y + bird.height && this.y + this.spriteAttackRight.frameHeight >= bird.y) || 
+        (this.y + 165 <= bird.y + bird.height && this.y + 165 >= bird.y))
+      } else {
+        return ((this.x + 75 + this.spriteAttackRight.frameWidth >= bird.x + bird.width && this.x + 110 <= bird.x) || 
+        (this.x + 125 + this.spriteAttackRight.frameWidth >= bird.x + bird.width && this.x + 160 <= bird.x)) 
+        &&
+        ((this.y + 140 <= bird.y + bird.height && this.y + 140 >= bird.y) ||
+        (this.y + this.spriteAttackRight.frameHeight <= bird.y + bird.height && this.y + this.spriteAttackRight.frameHeight >= bird.y) || 
+        (this.y + 165 <= bird.y + bird.height && this.y + 165 >= bird.y))
+      }
     }
     
     hitWith (otherJedi) {
